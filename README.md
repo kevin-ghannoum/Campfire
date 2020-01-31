@@ -11,3 +11,10 @@ The objective of this web application is to apply knowledge learned through Conc
 * Uploading Pictures
 * Comment on a Post
 * Follow a User
+
+###Team
+* Pascal Demerdjian (@pascwhale)
+* Kevin Ghannoum (@kevin-ghannoum)
+* Ahmed Haffoudah (@ahmedhaffoudah)
+* Badr Saidi (@BadrSaidi)
+* Omar Salahddine (@OmarSalahddine)
