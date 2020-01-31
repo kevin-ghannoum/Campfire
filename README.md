@@ -11,3 +11,7 @@ The objective of this web application is to apply knowledge learned through Conc
 * Uploading Pictures
 * Comment on a Post
 * Follow a User
+### Technologies
+* Python
+* Django
+* SQLite
