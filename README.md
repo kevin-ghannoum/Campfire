@@ -15,8 +15,7 @@ The objective of this web application is to apply knowledge learned through Conc
 * Python
 * Django
 * SQLite
-
-## Team
+### Team
 * Pascal Demerdjian (@pascwhale)
 * Kevin Ghannoum (@kevin-ghannoum)
 * Ahmed Haffoudah (@ahmedhaffoudah)
