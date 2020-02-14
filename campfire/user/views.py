@@ -11,11 +11,17 @@ def upload_post(request):
         form = ModelFormForPost(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/upload')
+            return HttpResponseRedirect('/feed')
     else:
         form = ModelFormForPost()
     return render(request, 'upload.html', {'form': form})
 
+
 def feed(request):
+    posts = Post.objects.all()
+    return render(request, 'feed.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
+
+
+def post(request):
     posts = Post.objects.all()
     return render(request, 'feed.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
