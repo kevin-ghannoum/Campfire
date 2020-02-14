@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ModelFormForPost
 from campfire.user.models import Post
+from campfire.settings import MEDIA_URL
 
 @csrf_exempt
 def upload_post(request):
@@ -14,3 +15,7 @@ def upload_post(request):
     else:
         form = ModelFormForPost()
     return render(request, 'upload.html', {'form': form})
+
+def feed(request):
+    posts = Post.objects.all()
+    return render(request, 'feed.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})

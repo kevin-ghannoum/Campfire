@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from .settings import MEDIA_ROOT, MEDIA_URL
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('campfire.user.urls')),
-]
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+
+# urlpatterns += staticfiles_urlpatterns()
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
