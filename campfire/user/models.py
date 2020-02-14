@@ -8,6 +8,6 @@ class Post(models.Model):
 
 class Comment(models.Model):
     user_name = models.CharField(max_length=31)
-    commment = models.CharField(max_length=255)
+    comment = models.CharField(max_length=255)
     upload_time = models.DateTimeField(auto_now=True)
     post_key = models.IntegerField()

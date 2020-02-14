@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+    <div class="col-md-12" style="padding: 1em 1em 1em 1em;">
+        <div class="card">
+        <img src="{{ MEDIA_URL }}{{ post.image }}" class="card-img-top" width="100%"/>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.user_name }}</h5>
+                <p class="card-text">{{ post.caption }}</p>
+                <p class="card-date">{{ post.upload_time }}</p>
+                <form method="POST" enctype="multipart/form-data" style="padding: 1em 1em 1em 1em;">
+                    {{ form.as_p }}
+                    <input class="btn btn-primary" type="submit" value="Comment"/>
+                </form>
+                <ul class="list-unstyled">
+                    {% for comment in comments %}
+                        <li class="media">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1">{{ comment.user_name }}</h5>
+                            <p>{{ comment.comment }}</p>
+                        </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
