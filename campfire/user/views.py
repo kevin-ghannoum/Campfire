@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import ModelFormForPost, ModelFormForComment
 from campfire.user.models import Post, Comment
 from campfire.settings import MEDIA_URL
@@ -31,3 +32,11 @@ def post(request):
         form.save()
         return HttpResponseRedirect('/post/?post_id=' + request.GET['post_id'])
     return render(request, 'post.html', {'MEDIA_URL': MEDIA_URL, 'post': post, 'comments': comments, 'form': form})
+
+@csrf_exempt
+def register(request):
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/feed')
+    return render(request, 'register.html', {'form': form})
