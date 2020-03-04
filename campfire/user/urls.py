@@ -7,4 +7,5 @@ urlpatterns = [
     path('feed/', views.feed),
     path('post/', views.post),
     path('register/', views.register),
+    path('login/', views.login_view),
 ]
