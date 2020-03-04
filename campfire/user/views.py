@@ -26,7 +26,8 @@ def feed(request):
 def post(request):
     post = Post.objects.get(id=request.GET['post_id'])
     comments = Comment.objects.filter(post_key=request.GET['post_id'])
-    form = ModelFormForComment(request.POST, initial={'post_key': request.GET['post_id']})
+    comment = Comment(post_key = request.GET['post_id'])
+    form = ModelFormForComment(request.POST, instance = comment)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/feed')

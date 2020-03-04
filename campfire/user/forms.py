@@ -11,4 +11,5 @@ class ModelFormForPost(forms.ModelForm):
 class ModelFormForComment(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['user_name', 'comment', 'post_key']
+        fields = ['user_name', 'comment']
+        exclude = ['post_key']
