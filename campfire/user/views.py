@@ -8,6 +8,13 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import ModelFormForPost, ModelFormForComment
 from campfire.user.models import Post, Comment
 from campfire.settings import MEDIA_URL
+from django.shortcuts import get_object_or_404, redirect
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+
+        return redirect('login')
 
 @csrf_exempt
 @login_required(login_url='/login')
@@ -41,7 +48,6 @@ def post(request):
 
 
 @csrf_exempt
-@login_required(login_url='/login')
 def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
@@ -51,13 +57,15 @@ def register(request):
   
 
 @csrf_exempt
-@login_required(login_url='/login')
 def login_view(request):
-    form = AuthenticationForm(request, data=request.POST)
-    if form.is_valid():
-        username, password = form.cleaned_data['username'], form.cleaned_data['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect('/feed')
-    return render(request, 'login.html', {'form': form})
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/feed')
+    else:
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username, password = form.cleaned_data['username'], form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/feed')
+        return render(request, 'login.html', {'form': form})
