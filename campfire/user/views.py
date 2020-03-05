@@ -20,7 +20,7 @@ def logout_view(request):
 @login_required(login_url='/login')
 def upload_post(request):
     if request.method == 'POST':
-        form = ModelFormForPost(request.POST, request.FILES)
+        form = ModelFormForPost(request.POST, request.FILES, instance = Post(user_name=request.user.username))
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/feed')
@@ -40,7 +40,7 @@ def feed(request):
 def post(request):
     post = Post.objects.get(id=request.GET['post_id'])
     comments = Comment.objects.filter(post_key=request.GET['post_id'])
-    form = ModelFormForComment(request.POST, instance = Comment(post_key = request.GET['post_id']))
+    form = ModelFormForComment(request.POST, instance = Comment(user_name=request.user.username, post_key=request.GET['post_id']))
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/post/?post_id=' + request.GET['post_id'])
@@ -49,12 +49,15 @@ def post(request):
 
 @csrf_exempt
 def register(request):
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-        form.save()
+    if request.user.is_authenticated:
         return HttpResponseRedirect('/feed')
-    return render(request, 'register.html', {'form': form})
-  
+    else:
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/feed')
+        return render(request, 'register.html', {'form': form})
+
 
 @csrf_exempt
 def login_view(request):
