@@ -9,7 +9,7 @@ from .forms import ModelFormForPost, ModelFormForComment, ModelFormForFollow
 from campfire.user.models import Post, Comment, Follow
 from campfire.settings import MEDIA_URL
 from django.shortcuts import get_object_or_404, redirect
-from django import forms
+import sqlite3
 
 def logout_view(request):
     if request.method == "POST":
@@ -32,7 +32,10 @@ def upload_post(request):
 
 @login_required(login_url='/login')
 def feed(request):
-    posts = Post.objects.all()
+    posts = []
+    follows = Follow.objects.filter(username=request.user.username)
+    for f in follows:
+        posts += Post.objects.filter(username=f.following)
     return render(request, 'feed.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
 
 

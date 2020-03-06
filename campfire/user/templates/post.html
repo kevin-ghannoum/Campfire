@@ -6,7 +6,7 @@
         <div class="card">
         <img src="{{ MEDIA_URL }}{{ post.image }}" class="card-img-top" width="100%"/>
             <div class="card-body">
-                <h5 class="card-title">{{ post.user_name }}</h5>
+                <h5 class="card-title">{{ post.username }}</h5>
                 <p class="card-text">{{ post.caption }}</p>
                 <p class="card-date">{{ post.upload_time }}</p>
                 <form method="POST" enctype="multipart/form-data" style="padding: 1em 1em 1em 1em;">
@@ -17,7 +17,7 @@
                     {% for comment in comments %}
                         <li class="media">
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1">{{ comment.user_name }}</h5>
+                            <h5 class="mt-0 mb-1">{{ comment.username }}</h5>
                             <p>{{ comment.comment }}</p>
                         </div>
                         </li>
