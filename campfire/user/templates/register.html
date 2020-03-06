@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class=form-group style="padding: 1em 1em 1em 1em;">
+        <h4>Create an account.</h4>
+        <form method="POST" enctype="multipart/form-data" style="padding: 1em 1em 1em 1em;">
+            {{ form.as_p }}
+            <input type="submit" value="Register"/></form>
+        </form>
+    </div>
+{% endblock %}
