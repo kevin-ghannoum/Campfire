@@ -21,3 +21,6 @@ The objective of this web application is to apply knowledge learned through Conc
 * Ahmed Haffoudah (@ahmedhaffoudah)
 * Badr Saidi (@BadrSaidi)
 * Omar Salahddine (@OmarSalahddine)
+
+### Build Status
+[![Build Status](https://travis-ci.com/kevin-ghannoum/Campfire.svg?branch=travis)](https://travis-ci.com/kevin-ghannoum/Campfire)
