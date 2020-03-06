@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .forms import ModelFormForPost, ModelFormForComment
-from campfire.user.models import Post, Comment
+from .forms import ModelFormForPost, ModelFormForComment, ModelFormForFollow
+from campfire.user.models import Post, Comment, Follow
 from campfire.settings import MEDIA_URL
 from django.shortcuts import get_object_or_404, redirect
+import sqlite3
 
 def logout_view(request):
     if request.method == "POST":
@@ -20,7 +21,7 @@ def logout_view(request):
 @login_required(login_url='/login')
 def upload_post(request):
     if request.method == 'POST':
-        form = ModelFormForPost(request.POST, request.FILES, instance = Post(user_name=request.user.username))
+        form = ModelFormForPost(request.POST, request.FILES, instance = Post(username=request.user.username))
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/feed')
@@ -31,7 +32,10 @@ def upload_post(request):
 
 @login_required(login_url='/login')
 def feed(request):
-    posts = Post.objects.all()
+    posts = []
+    follows = Follow.objects.filter(username=request.user.username)
+    for f in follows:
+        posts += Post.objects.filter(username=f.following)
     return render(request, 'feed.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
 
 
@@ -40,7 +44,7 @@ def feed(request):
 def post(request):
     post = Post.objects.get(id=request.GET['post_id'])
     comments = Comment.objects.filter(post_key=request.GET['post_id'])
-    form = ModelFormForComment(request.POST, instance = Comment(user_name=request.user.username, post_key=request.GET['post_id']))
+    form = ModelFormForComment(request.POST, instance = Comment(username=request.user.username, post_key=request.GET['post_id']))
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/post/?post_id=' + request.GET['post_id'])
@@ -77,6 +81,10 @@ def login_view(request):
 @csrf_exempt
 @login_required(login_url='/login')
 def profile(request):
-    posts = Post.objects.filter(user_name=request.user.username)
-    return render(request, 'profile.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
+    posts = Post.objects.filter(username=request.user.username)
+    form = ModelFormForFollow(request.POST, instance = Follow(username=request.user.username))
+    if form.is_valid():
+        form.save()
+        return redirect('profile')
+    return render(request, 'profile.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts, 'form': form})
 
