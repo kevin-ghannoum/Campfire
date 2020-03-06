@@ -72,3 +72,11 @@ def login_view(request):
                 login(request, user)
                 return HttpResponseRedirect('/feed')
         return render(request, 'login.html', {'form': form})
+
+
+@csrf_exempt
+@login_required(login_url='/login')
+def profile(request):
+    posts = Post.objects.filter(user_name=request.user.username)
+    return render(request, 'profile.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
+
