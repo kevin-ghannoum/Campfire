@@ -1,30 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row">
+<div class="row">
     <div class="col-md-12" style="padding: 1em 1em 1em 1em;">
         <div class="card">
-        <img src="{{ MEDIA_URL }}{{ post.image }}" class="card-img-top" width="100%"/>
+            <img src="{{ MEDIA_URL }}{{ post.image }}" class="card-img-top" width="100%" />
             <div class="card-body">
                 <h5 class="card-title">{{ post.username }}</h5>
                 <p class="card-text">{{ post.caption }}</p>
                 <p class="card-date">{{ post.upload_time }}</p>
                 <form method="POST" enctype="multipart/form-data" style="padding: 1em 1em 1em 1em;">
-                    {{ form.as_p }}
-                    <input class="btn btn-primary" type="submit" value="Comment"/>
+                    {{ form.comment }}
+                    <div style="padding-top: 1em;">
+                        <input class="btn btn-primary" type="submit" value="Comment" />
+                    </div>
                 </form>
+
+
+                <style>
+                    li:nth-child(odd) .media-body {
+                        background-color: #646464;
+                    }
+                </style>
                 <ul class="list-unstyled">
                     {% for comment in comments %}
-                        <li class="media">
+                    <li class="media">
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1">{{ comment.username }}</h5>
-                            <p>{{ comment.comment }}</p>
+                            <div style="padding: 0.5em 1em 0em 1em;">
+                                <h5 class="mt-0 mb-1">{{ comment.username }}</h5>
+                                <p>{{ comment.comment }}</p>
+                            </div>
                         </div>
-                        </li>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
-    </div>
+</div>
 {% endblock %}

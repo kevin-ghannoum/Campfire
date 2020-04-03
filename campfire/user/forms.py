@@ -10,6 +10,13 @@ class ModelFormForPost(forms.ModelForm):
 
 
 class ModelFormForComment(forms.ModelForm):
+    comment = forms.CharField(widget=forms.TextInput(
+        attrs = {
+            'class': 'form-control',
+            'placeholder': 'Write a comment...'
+        }
+    ))
+
     class Meta:
         model = Comment
         fields = ['comment']
