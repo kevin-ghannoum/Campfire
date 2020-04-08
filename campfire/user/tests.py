@@ -29,6 +29,11 @@ class Test(TestCase):
         self.login_second_user()
         self.client.logout()
     
+    def test_access_register_page(self):
+        response = self.client.get('/register/')
+        page = response.content.decode('utf8') 
+        self.assertIn('<h4>Create an account.</h4>', page)
+
     def test_access_root_page(self):
         response = self.client.get('/')
         self.assertEquals(response.status_code, 200)
