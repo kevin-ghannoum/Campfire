@@ -62,6 +62,13 @@ class Test(TestCase):
         self.assertRedirects(response, '/login/', status_code=302, target_status_code=200, fetch_redirect_response=True)
         self.client.logout()
 
+    def test_access_upload_page(self):
+        self.login_first_user()
+        response = self.client.get('/upload/')
+        page = response.content.decode('utf8') 
+        self.assertIn('<h4>Create a post.</h4>', page)
+        self.client.logout()
+
     def test_upload_post(self):
         self.login_first_user()
         response = self.client.get('/upload/')
