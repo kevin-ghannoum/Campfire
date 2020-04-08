@@ -33,3 +33,9 @@ class Test(TestCase):
         response = self.client.get('/login/')
         page = response.content.decode('utf8') 
         self.assertIn('<h4>Login Here.</h4>', page)
+
+    def test_access_feed_page(self):
+        self.login_first_user()
+        response = self.client.get('/feed/')
+        self.assertEquals(response.status_code, 200)
+        self.client.logout()
