@@ -46,3 +46,9 @@ class Test(TestCase):
         page = response.content.decode('utf8') 
         self.assertIn('<h1>'+first_user['username']+'</h2>', page)
         self.client.logout()
+    
+    def test_access_logout_page(self):
+        self.login_first_user()
+        response = self.client.post('/logout/')
+        self.assertRedirects(response, '/login/', status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.client.logout()
