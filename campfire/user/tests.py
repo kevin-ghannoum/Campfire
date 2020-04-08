@@ -28,3 +28,8 @@ class Test(TestCase):
         response = self.client.get('/')
         page = response.content.decode('utf8') 
         self.assertIn('<h4>Login Here.</h4>', page)
+    
+    def test_access_login_page(self):
+        response = self.client.get('/login/')
+        page = response.content.decode('utf8') 
+        self.assertIn('<h4>Login Here.</h4>', page)
