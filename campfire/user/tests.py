@@ -2,7 +2,7 @@ import os, shutil
 import datetime
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from campfire.user.models import Post
+from campfire.user.models import Post, Follow, Comment
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 
@@ -74,4 +74,17 @@ class Test(TestCase):
         page = response.content.decode('utf8') 
         self.assertIn(caption, page)
         self.client.logout()
-        shutil.rmtree(temporary_path)
+        return post
+    
+    def test_follow(self):
+        if not os.path.exists(temporary_path):
+            os.mkdir(temporary_path)
+        settings.MEDIA_ROOT = temporary_path
+        post = self.test_upload_post()
+        self.login_second_user()
+        response = self.client.get('/profile/')
+        Follow.objects.create(username=response.context['user'], following=first_user['username'])
+        response = self.client.get('/feed/')
+        page = response.content.decode('utf8') 
+        self.assertIn(first_user['username'], page)
+        self.client.logout()
