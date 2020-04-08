@@ -15,3 +15,9 @@ class Comment(models.Model):
 class Follow(models.Model):
     username = models.CharField(max_length=31)
     following = models.CharField(max_length=31)
+
+class Like(models.Model):
+    username = models.CharField(max_length=31)
+    liked_time = models.DateTimeField(auto_now=True)
+    post_key = models.IntegerField()
+
