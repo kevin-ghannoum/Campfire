@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .forms import ModelFormForPost, ModelFormForComment, ModelFormForFollow
-from campfire.user.models import Post, Comment, Follow
+from campfire.user.models import Post, Comment, Follow, Like
 from campfire.settings import MEDIA_URL
 from django.shortcuts import get_object_or_404, redirect
 import sqlite3
@@ -43,12 +43,20 @@ def feed(request):
 @login_required(login_url='/login')
 def post(request):
     post = Post.objects.get(id=request.GET['post_id'])
+    likes = Like.objects.filter(post_key=request.GET['post_id'])
+    is_Liked = False
+    if Like.objects.filter(post_key=request.GET['post_id'], username=request.user.username).exists():
+        Like.objects.filter(post_key=request.GET['post_id'], username=request.user.username).delete()
+        is_Liked = False
+    else:
+        Like.objects.create(username=request.user.username, post_key=request.GET['post_id'])
+        is_Liked = True
     comments = Comment.objects.filter(post_key=request.GET['post_id'])
     form = ModelFormForComment(request.POST, instance = Comment(username=request.user.username, post_key=request.GET['post_id']))
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/post/?post_id=' + request.GET['post_id'])
-    return render(request, 'post.html', {'MEDIA_URL': MEDIA_URL, 'post': post, 'comments': comments, 'form': form})
+    return render(request, 'post.html', {'MEDIA_URL': MEDIA_URL, 'post': post, 'likes': likes, 'is_Liked': is_Liked, 'comments': comments, 'form': form})
 
 
 @csrf_exempt
