@@ -9,6 +9,7 @@
                 <h5 class="card-title">{{ post.username }}</h5>
                 <p class="card-text">{{ post.caption }}</p>
                 <p class="card-date">{{ post.upload_time }}</p>
+                <input type="image" src="{{ MEDIA_URL }}not_liked.png" width="3%">
                 <form method="POST" enctype="multipart/form-data" style="padding: 1em 1em 1em 1em;">
                     {{ form.as_p }}
                     <input class="btn btn-primary" type="submit" value="Comment"/>
