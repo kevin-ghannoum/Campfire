@@ -9,8 +9,7 @@ from django.conf import settings
 first_user = {'username': 'Batman', 'password': 'Wayne8'}
 second_user = {'username': 'Spiderman', 'password': 'Parker4'}
 
-first_image_path = 'media/images/django.png'
-temporary_path = 'media/images/test/'
+first_image_path = 'media/images/campfire_logo.png'
 
 # Create your tests here.
 class Test(TestCase):
