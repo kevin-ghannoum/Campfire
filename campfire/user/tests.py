@@ -23,3 +23,8 @@ class Test(TestCase):
     def test_access_root_page(self):
         response = self.client.get('/')
         self.assertEquals(response.status_code, 200)
+    
+    def test_redirect_root_to_login(self):
+        response = self.client.get('/')
+        page = response.content.decode('utf8') 
+        self.assertIn('<h4>Login Here.</h4>', page)
