@@ -39,3 +39,10 @@ class Test(TestCase):
         response = self.client.get('/feed/')
         self.assertEquals(response.status_code, 200)
         self.client.logout()
+    
+    def test_access_profile_page(self):
+        self.login_first_user()
+        response = self.client.get('/profile/')
+        page = response.content.decode('utf8') 
+        self.assertIn('<h1>'+first_user['username']+'</h2>', page)
+        self.client.logout()
