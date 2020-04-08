@@ -19,3 +19,7 @@ class Test(TestCase):
         self.client.logout()
         self.login_second_user()
         self.client.logout()
+    
+    def test_access_root_page(self):
+        response = self.client.get('/')
+        self.assertEquals(response.status_code, 200)
