@@ -14,12 +14,14 @@ temporary_path = 'media/images/test/'
 
 # Create your tests here.
 class Test(TestCase):
-    def login_first_user(self):
-        User.objects.create_user(username=first_user['username'], password=first_user['password'])
+    def login_first_user(self, create=True):
+        if create:
+            User.objects.create_user(username=first_user['username'], password=first_user['password'])
         self.client.login(username=first_user['username'], password=first_user['password'])
     
-    def login_second_user(self):
-        User.objects.create_user(username=second_user['username'], password=second_user['password'])
+    def login_second_user(self, create=True):
+        if create:
+            User.objects.create_user(username=second_user['username'], password=second_user['password'])
         self.client.login(username=second_user['username'], password=second_user['password'])
     
     def test_create_users(self):
@@ -87,4 +89,18 @@ class Test(TestCase):
         response = self.client.get('/feed/')
         page = response.content.decode('utf8') 
         self.assertIn(first_user['username'], page)
+        self.client.logout()
+        return post
+    
+    def test_comment(self):
+        post = self.test_follow()
+        self.login_second_user(create=False)
+        response = self.client.get('/post/', {'post_id': post.id})
+        page = response.content.decode('utf8')
+        self.assertIn(post.caption, page)
+        comment = 'I will destroy you.'
+        Comment.objects.create(username=response.context['user'], comment=comment, upload_time=datetime.datetime.now(), post_key=post.id)
+        response = self.client.get('/post/', {'post_id': post.id})
+        page = response.content.decode('utf8')
+        self.assertIn(comment, page)
         self.client.logout()
