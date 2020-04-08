@@ -1,8 +1,16 @@
+import os, shutil
+import datetime
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from campfire.user.models import Post
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
 
 first_user = {'username': 'Batman', 'password': 'Wayne8'}
 second_user = {'username': 'Spiderman', 'password': 'Parker4'}
+
+first_image_path = 'media/images/django.png'
+temporary_path = 'media/images/test/'
 
 # Create your tests here.
 class Test(TestCase):
@@ -52,3 +60,18 @@ class Test(TestCase):
         response = self.client.post('/logout/')
         self.assertRedirects(response, '/login/', status_code=302, target_status_code=200, fetch_redirect_response=True)
         self.client.logout()
+
+    def test_upload_post(self):
+        if not os.path.exists(temporary_path):
+            os.mkdir(temporary_path)
+        settings.MEDIA_ROOT = temporary_path
+        self.login_first_user()
+        response = self.client.get('/upload/')
+        first_image = SimpleUploadedFile(name='django.png', content=open(first_image_path, 'rb').read(), content_type='image/png')
+        caption = 'Batman vs Superman'
+        post = Post.objects.create(username=response.context['user'], image=first_image, caption=caption, upload_time=datetime.datetime.now())
+        response = self.client.get('/post/', {'post_id': post.id})
+        page = response.content.decode('utf8') 
+        self.assertIn(caption, page)
+        self.client.logout()
+        shutil.rmtree(temporary_path)
