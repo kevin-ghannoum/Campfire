@@ -64,9 +64,6 @@ class Test(TestCase):
         self.client.logout()
 
     def test_upload_post(self):
-        if not os.path.exists(temporary_path):
-            os.mkdir(temporary_path)
-        settings.MEDIA_ROOT = temporary_path
         self.login_first_user()
         response = self.client.get('/upload/')
         first_image = SimpleUploadedFile(name='django.png', content=open(first_image_path, 'rb').read(), content_type='image/png')
@@ -79,9 +76,6 @@ class Test(TestCase):
         return post
     
     def test_follow(self):
-        if not os.path.exists(temporary_path):
-            os.mkdir(temporary_path)
-        settings.MEDIA_ROOT = temporary_path
         post = self.test_upload_post()
         self.login_second_user()
         response = self.client.get('/profile/')
