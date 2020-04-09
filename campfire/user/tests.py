@@ -67,6 +67,12 @@ class Test(TestCase):
         self.assertRedirects(response, '/login/', status_code=302, target_status_code=200, fetch_redirect_response=True)
         self.client.logout()
 
+    def test_access_fire_page(self):
+        self.login_first_user()
+        response = self.client.get('/fire/')
+        self.assertEquals(response.status_code, 200)
+        self.client.logout()
+
     def test_access_upload_page(self):
         self.login_first_user()
         response = self.client.get('/upload/')
