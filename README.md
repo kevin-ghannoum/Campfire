@@ -1,6 +1,10 @@
+### Build Status
+[![Build Status](https://travis-ci.com/kevin-ghannoum/Campfire.svg?branch=travis)](https://travis-ci.com/kevin-ghannoum/Campfire)
+
 # Welcome to Campfire
 
 Welcome to the Campfire GitHub repository. 
+
 
 ## Project
 ### Description
@@ -22,5 +26,28 @@ The objective of this web application is to apply knowledge learned through Conc
 * Badr Saidi (@BadrSaidi)
 * Omar Salahddine (@OmarSalahddine)
 
-### Build Status
-[![Build Status](https://travis-ci.com/kevin-ghannoum/Campfire.svg?branch=travis)](https://travis-ci.com/kevin-ghannoum/Campfire)
+### Demo Pictures 
+## Register Page
+![Image of Register Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/register.png)
+## Login Page
+![Image of Login Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/login.png)
+## Upload Page
+![Image of Feed Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/upload.png)
+## Feed Page
+![Image of Feed Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/feed.png)
+## Profile Page
+This is where the user can add accounts they wish to follow
+![Image of Profile Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/profile.png)
+## Like Feature
+# Before Like 
+![Image of before like Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/like_before.png)
+# After Like 
+![Image of after like Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/like_after.png)
+## Fire page
+![Image of Fire Page](https://github.com/kevin-ghannoum/Campfire/tree/master/media/demo/fire.png)
+
+
+
+
+
+
