@@ -38,6 +38,13 @@ def feed(request):
         posts += Post.objects.filter(username=f.following)
     return render(request, 'feed.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
 
+@login_required(login_url='/login')
+def fire(request):
+    likes = Like.objects.filter(username=request.user.username)
+    posts = []
+    for l in likes:
+        posts += Post.objects.filter(id =l.post_key)
+    return render(request, 'fire.html', {'MEDIA_URL': MEDIA_URL, 'posts': posts})
 
 @csrf_exempt
 @login_required(login_url='/login')
