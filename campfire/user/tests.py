@@ -2,7 +2,7 @@ import os, shutil
 import datetime
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from campfire.user.models import Post, Follow, Comment
+from campfire.user.models import Post, Follow, Comment, Like
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 
@@ -114,4 +114,14 @@ class Test(TestCase):
         response = self.client.get('/post/', {'post_id': post.id})
         page = response.content.decode('utf8')
         self.assertIn(comment, page)
+        self.client.logout()
+
+    def test_like(self):
+        post = self.test_follow()
+        self.login_first_user(create=False)
+        response = self.client.get('/post/', {'post_id': post.id})
+        Like.objects.create(username=first_user['username'], post_key=post.id)
+        response = self.client.get('/post/', {'post_id': post.id})
+        page = response.content.decode('utf-8')
+        self.assertIn("liked.png", page)
         self.client.logout()
