@@ -9,6 +9,13 @@
                 <h5 class="card-title">{{ post.username }}</h5>
                 <p class="card-text">{{ post.caption }}</p>
                 <p class="card-date">{{ post.upload_time }}</p>
+                <form action="" method="POST">
+                    {% if is_Liked %}
+                    <input  name=" " value=" " type="submit" style="background-image: url('{{ MEDIA_URL }}liked.png'); border:none; background-repeat:no-repeat;background-size:100% 100%;"/>
+                    {% else %}
+                    <input  name=" " value=" " type="submit" style="background-image: url('{{ MEDIA_URL }}not_liked.png'); border:none; background-repeat:no-repeat;background-size:100% 100%;"/>
+                    {% endif %}
+                </form>
                 <form method="POST" enctype="multipart/form-data" style="padding: 1em 1em 1em 1em;">
                     {{ form.as_p }}
                     <input class="btn btn-primary" type="submit" value="Comment"/>
