@@ -1,6 +1,6 @@
 asgiref==3.2.3
 certifi==2019.11.28
-Django==3.0.3
+Django==3.0.7
 olefile==0.46
 Pillow==7.0.0
 pytz==2019.3
